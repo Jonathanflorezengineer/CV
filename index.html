@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hoja de Vida — Jonathan Flórez Pulido</title>
+  <!-- Fuente profesional -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --secondary: #f4f6f9;
+      --text: #333;
+      --muted: #666;
+      --card-bg: #fff;
+      --radius: 16px;
+      --shadow: 0 8px 20px rgba(0,0,0,0.1);
+      --font: 'Poppins', sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      margin: 0;
+      padding: 0;
+      background-color: var(--secondary);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), #0d47a1);
+      color: white;
+      padding: 50px 20px 70px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border-bottom-left-radius: var(--radius);
+      border-bottom-right-radius: var(--radius);
+      position: relative;
+    }
+    header .profile-pic {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid white;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+    header h1 {
+      margin: 10px 0 8px;
+      font-size: 36px;
+      font-weight: 700;
+    }
+    header p {
+      margin: 5px 0 24px;
+      font-size: 18px;
+      color: #e3f2fd;
+      font-weight: 300;
+    }
+    .contacto {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .chip {
+      background: rgba(255,255,255,0.2);
+      padding: 8px 16px;
+      border-radius: 24px;
+      font-size: 14px;
+      backdrop-filter: blur(5px);
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.3);
+      transition: all 0.3s ease;
+    }
+    .chip:hover { background: rgba(255,255,255,0.35); transform: translateY(-2px); }
+
+    .btn-pdf {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: #fff;
+      color: var(--primary);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 24px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+    .btn-pdf:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      background: var(--card-bg);
+      padding: 28px;
+      margin-bottom: 28px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    section:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,0.15); }
+    section h2 {
+      border-left: 6px solid var(--primary);
+      padding-left: 12px;
+      margin-bottom: 18px;
+      font-size: 22px;
+      color: var(--primary);
+    }
+    section h3 {
+      margin-bottom: 6px;
+      font-size: 18px;
+      color: var(--text);
+      font-weight: 600;
+    }
+    section ul {
+      padding-left: 20px;
+      margin: 0;
+    }
+    section li { margin-bottom: 6px; }
+
+    .logros { font-weight: 600; margin-top: 12px; color: var(--primary); }
+
+    footer {
+      text-align: center;
+      padding: 18px;
+      background: var(--primary);
+      color: white;
+      margin-top: 40px;
+      border-top: 5px solid #0d47a1;
+      border-top-left-radius: var(--radius);
+      border-top-right-radius: var(--radius);
+      font-weight: 300;
+    }
+
+    @media (max-width: 768px) {
+      header h1 { font-size: 26px; }
+      header p { font-size: 15px; }
+      .chip { font-size: 12px; }
+      .btn-pdf { position: static; margin-top: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="Jonathan Florez profesional photo.jpg" alt="Foto de Jonathan Flórez Pulido" class="profile-pic">
+    <h1>Jonathan Flórez Pulido</h1>
+    <p>Administrador Multilingüe | Gestión de operaciones internacionales</p>
+    <div class="contacto">
+      <a class="chip" href="https://wa.me/573219632121" target="_blank">📞 3219632121</a>
+      <a class="chip" href="https://mail.google.com/mail/?view=cm&fs=1&to=jfp.pmp@gmail.com" target="_blank">✉️ jfp.pmp@gmail.com</a>
+      <span class="chip">📍 Bogotá, Colombia</span>
+    </div>
+    <button class="btn-pdf" onclick="window.print()">🖨️ Guardar en PDF</button>
+  </header>
+
+  <main>
+    <section>
+      <h2>Propuesta de Valor</h2>
+      <p>
+        Administrador de empresas e internacionalista, con más de 5 años de experiencia en la gestión de operaciones en entornos multiculturales, incluyendo BPO, comercio internacional y servicios. Especializado en liderazgo de equipos, optimización de procesos y servicio al cliente, con dominio avanzado en gestión de proyectos y herramientas como Excel avanzado, CRM y SAP. Hablo español, inglés y portugués con fluidez, y dirijo equipos multilingües para superar los objetivos estratégicos y mejorar la eficiencia operativa.
+      </p>
+    </section>
+
+    <section>
+      <h2>Perfil Profesional</h2>
+      <p>
+        Cuento con una sólida trayectoria en la gestión de operaciones en los sectores de BPO y comercio internacional. Me especializo en el liderazgo de equipos, garantizando el cumplimiento de los KPI, la optimización de procesos y la prestación de un servicio al cliente de calidad superior. Mi experiencia incluye la supervisión de equipos multilingües, el análisis de datos y la implementación de estrategias que aumentan la productividad, reducen los tiempos de respuesta y mejoran la calidad del servicio.
+      </p>
+    </section>
+
+    <section>
+      <h2>Experiencia</h2>
+      <h3>Serlefin Zona Franca S.A.S — Analista de Operaciones <small>(Enero – Julio 2024)</small></h3>
+      <ul>
+        <li>Coordiné operaciones administrativas para clientes internacionales, brindando apoyo en inglés y portugués.</li>
+        <li>Gestioné la comunicación entre equipos internos y clientes, asegurando requisitos y calidad de servicio.</li>
+        <li>Implementé estrategias para mejorar eficiencia y tiempos de respuesta.</li>
+      </ul>
+      <div class="logros">Logros:</div>
+      <ul>
+        <li>Aumenté la satisfacción de los clientes en un 30 % mediante procesos de calidad y servicio personalizado.</li>
+        <li>Reduje los tiempos de respuesta en un 20 %.</li>
+      </ul>
+
+      <h3>Conectamos S.S. — Asistente Bilingüe <small>(Abril 2023 – Julio 2024)</small></h3>
+      <ul>
+        <li>Coordiné operaciones administrativas para clientes internacionales en inglés y portugués.</li>
+        <li>Gestioné comunicación entre equipos internos y clientes.</li>
+        <li>Optimicé procesos para mejorar eficiencia y tiempos de respuesta.</li>
+      </ul>
+      <div class="logros">Logros:</div>
+      <ul>
+        <li>Aumenté la satisfacción de los clientes en un 30 %.</li>
+        <li>Reduje los tiempos de respuesta en un 20 %.</li>
+      </ul>
+
+      <h3>Ozeol - CDR Asociados S.A.S — Multilingual Prospector <small>(Junio 2022 – Octubre 2022)</small></h3>
+      <ul>
+        <li>Prospección de clientes internacionales (Brasil y Francia).</li>
+        <li>Coordinación logística de exportación y negociación de contratos.</li>
+      </ul>
+      <div class="logros">Logros:</div>
+      <ul>
+        <li>Aumenté la cartera de clientes en un 25 %.</li>
+        <li>Reduje costos logísticos en un 10 %.</li>
+      </ul>
+
+      <h3>Proservice S.A.S — Team Leader Portugal e Italia <small>(Dic 2021 – Junio 2022)</small></h3>
+      <ul>
+        <li>Dirigí un equipo de servicio al cliente y gestión de pedidos en mercados lusófonos.</li>
+        <li>Supervisé KPIs y objetivos operativos con mejoras continuas.</li>
+        <li>Coordiné comunicación entre clientes y logística.</li>
+      </ul>
+      <div class="logros">Logros:</div>
+      <ul>
+        <li>Mejoré la puntualidad en un 15 %.</li>
+        <li>Aumenté la eficiencia del equipo en un 20 %.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Formación Académica</h2>
+      <ul>
+        <li><strong>Maestría en Gerencia de Proyectos</strong> — Universidad Politécnico Grancolombiano — 2025</li>
+        <li><strong>Negocios Internacionales</strong> — Universidad Politécnico Grancolombiano — 2025</li>
+        <li><strong>Administración de Empresas</strong> — Universidad Politécnico Grancolombiano — 2024</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Idiomas</h2>
+      <ul>
+        <li>Portugués — C2</li>
+        <li>Inglés — C1</li>
+        <li>Francés — B2</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Habilidades</h2>
+      <ul>
+        <li>Gestión de operaciones y liderazgo de equipos multilingües.</li>
+        <li>Optimización de procesos y análisis de datos.</li>
+        <li>Excel avanzado (VBA y macros).</li>
+        <li>CRM y SAP.</li>
+        <li>Gestión de relaciones con clientes en entornos multiculturales.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Jonathan Flórez Pulido — CV Profesional</p>
+  </footer>
+</body>
+</html>
