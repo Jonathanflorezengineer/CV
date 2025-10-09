@@ -500,51 +500,48 @@
 
 async function savePDF() {
   const { jsPDF } = window.jspdf;
-const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+  const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
 
-const currentLang = document.querySelector('.lang-block.active').id;
-const name = "Jonathan Flórez Pulido";
-const role = "Administrador Multilingüe | Gestión de Operaciones Internacionales";
-const contact = "+57 321 963 2121 | jfp.pmp@gmail.com | Bogotá, Colombia";
+  const currentLang = document.querySelector('.lang-block.active').id;
+  const name = "Jonathan Flórez Pulido";
+  const role = "Administrador Multilingüe | Gestión de Operaciones Internacionales";
+  const contact = "+57 321 963 2121 | jfp.pmp@gmail.com | Bogotá, Colombia";
 
-// === Encabezado profesional con foto ===
-try {
-  const img = new Image();
-  img.src = "Jonathan Florez profesional photo.jpg"; // asegúrate que esté en la misma carpeta
-  doc.addImage(img, "JPEG", 21, 10, 15, 22);; // (x, y, ancho, alto)
-} catch (e) {
-  console.error("⚠️ No se pudo cargar la foto:", e);
-}
+  // === Encabezado profesional con foto ===
+  try {
+    const img = new Image();
+    img.src = "Jonathan Florez profesional photo.jpg";
+    doc.addImage(img, "JPEG", 21, 10, 15, 22); // (x, y, ancho, alto)
+  } catch (e) {
+    console.error("⚠️ No se pudo cargar la foto:", e);
+  }
 
-let startX = 40; // inicio del texto, alineado junto a la foto
-let y = 20;
+  let startX = 40;
+  let y = 20;
 
-doc.setFont("helvetica", "bold");
-doc.setFontSize(14);
-doc.text(name, startX, y);
-y += 5;
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.text(name, startX, y);
+  y += 5;
 
-doc.setFont("helvetica", "normal");
-doc.setFontSize(10);
-doc.text(role, startX, y);
-y += 4;
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.text(role, startX, y);
+  y += 4;
 
-doc.setFontSize(9);
-doc.setTextColor(60);
-doc.text(contact, startX, y);
-y += 6;
+  doc.setFontSize(9);
+  doc.setTextColor(60);
+  doc.text(contact, startX, y);
+  y += 6;
 
-doc.setTextColor(0);
-doc.setFontSize(9.3);
+  doc.setTextColor(0);
+  doc.setFontSize(9.3);
 
   // === Contenido principal ===
   const activeLang = document.getElementById(currentLang);
   const sections = Array.from(activeLang.querySelectorAll('section'));
 
-  doc.setTextColor(0);
-  doc.setFontSize(9.3);
-
-  const combineCount = 2; // últimas 2 secciones se combinan (idiomas y habilidades)
+  const combineCount = 2; // últimas 2 secciones: Idiomas + Habilidades
   const total = sections.length;
   const mainCount = total > combineCount ? total - combineCount : total;
 
@@ -552,9 +549,8 @@ doc.setFontSize(9.3);
     const section = sections[i];
     const title = section.querySelector('h2')?.innerText || '';
     const paragraphs = Array.from(section.querySelectorAll('p')).map(p => p.innerText);
-    const subtitles = Array.from(section.querySelectorAll('h3')).map(h3 => h3.innerText);
-    const items = Array.from(section.querySelectorAll('li')).map(li => li.innerText);
 
+    // 🔹 Título de sección
     if (title) {
       y += 3;
       doc.setFont('helvetica', 'bold');
@@ -564,35 +560,68 @@ doc.setFontSize(9.3);
       y += 3.5;
     }
 
+    // 🔹 Párrafos introductorios
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(0);
     doc.setFontSize(9.2);
 
-    // párrafos (menos espacio entre líneas)
     for (const p of paragraphs) {
       const splitText = doc.splitTextToSize(p, 170);
       doc.text(splitText, 20, y);
-      y += splitText.length * 3.4; // 🔹 reducido de 4 → 3.4
+      y += splitText.length * 3.4;
     }
 
-    // subtítulos (experiencias)
-    for (const sub of subtitles) {
-      y += 2.5;
+    // 🔹 Experiencias laborales
+    const experiences = section.querySelectorAll('h3');
+
+    experiences.forEach((exp, idx) => {
+      y += 4;
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9.4);
-      doc.text(sub, 20, y);
-      y += 2.5;
-      doc.setFont('helvetica', 'normal');
-    }
+      doc.setFontSize(9.5);
+      doc.text(exp.innerText, 20, y);
+      y += 3;
 
-    // listas (li)
-    for (const li of items) {
-      const splitLi = doc.splitTextToSize(li, 165);
-      doc.text('- ' + splitLi.join('\n'), 25, y);
-      y += splitLi.length * 3.3; // 🔹 reducido de 4 → 3.3
-    }
+      // 🔹 Listas asociadas a esa experiencia
+      let next = exp.nextElementSibling;
+      while (next && next.tagName !== 'H3') {
+        if (next.tagName === 'UL') {
+          const lis = next.querySelectorAll('li');
+          lis.forEach(li => {
+            const split = doc.splitTextToSize(li.innerText, 165);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.text(split, 23, y); // sin viñetas, solo indentación
+            y += split.length * 3.3;
+          });
+        }
 
-    // salto de página si hace falta
+        // 🔹 Título de logros
+        if (next.classList && next.classList.contains('logros')) {
+          y += 2;
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(9.2);
+          doc.setTextColor(26, 115, 232);
+          doc.text(next.innerText, 20, y);
+          y += 3;
+          doc.setTextColor(0);
+        }
+
+        next = next.nextElementSibling;
+      }
+
+      // 🔹 Espacio natural entre experiencias (sin líneas)
+      if (idx < experiences.length - 1) {
+        y += 2;
+      }
+
+      // 🔹 Control de salto de página
+      if (y > 270) {
+        doc.addPage();
+        y = 18;
+      }
+    });
+
+    // 🔹 Control antes de la siguiente sección
     if (y > 270 && i !== mainCount - 1) {
       doc.addPage();
       y = 18;
