@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hoja de Vida — Jonathan Flórez Pulido</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -56,13 +57,29 @@
       color: #e3f2fd;
       font-weight: 300;
     }
-    .contacto {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
+   .contact {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 13px;
+  justify-content: center;
+}
+.contact-link {
+  color: #ffffff; /* 🔹 texto blanco puro */
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.25); /* 🔹 fondo más claro que resalta sobre el azul */
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* efecto al pasar el mouse */
+.contact-link:hover {
+  background: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+}
     .chip {
       background: rgba(255,255,255,0.2);
       padding: 8px 16px;
@@ -170,22 +187,28 @@
 
 <body>
   <header>
-    <div class="lang-switch">
-      <button class="lang-btn" onclick="setLanguage('es')">🇪🇸</button>
-      <button class="lang-btn" onclick="setLanguage('pt')">🇧🇷</button>
-      <button class="lang-btn" onclick="setLanguage('en')">🇬🇧</button>
-    </div>
-    <img src="Jonathan Florez profesional photo.jpg" alt="Foto de Jonathan Flórez Pulido" class="profile-pic">
-    <h1>Jonathan Flórez Pulido</h1>
-    <p>Administrador Multilingüe | Gestión de Operaciones Internacionales</p>
-    <div class="contacto">
-      <a class="chip" href="https://wa.me/573219632121" target="_blank">📞 3219632121</a>
-      <a class="chip" href="https://mail.google.com/mail/?view=cm&fs=1&to=jfp.pmp@gmail.com" target="_blank">✉️ jfp.pmp@gmail.com</a>
-      <span class="chip">📍 Bogotá, Colombia</span>
-    </div>
-    <button class="btn-pdf" onclick="savePDF()">🖨️ Guardar en PDF</button>
-  </header>
+  <div class="lang-switch">
+    <button class="lang-btn" onclick="setLanguage('es')">ES</button>
+    <button class="lang-btn" onclick="setLanguage('pt')">PT</button>
+    <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+  </div>
 
+  <div class="header-inner">
+    <img src="Jonathan Florez profesional photo.jpg" alt="Foto de Jonathan Flórez Pulido" class="profile-pic">
+
+    <div class="info">
+      <h1>Jonathan Flórez Pulido</h1>
+      <p class="role">Administrador Multilingüe | Gestión de Operaciones Internacionales</p>
+
+      <div class="contact">
+        <a class="contact-link" href="https://wa.me/573219632121" target="_blank">+57 321 963 2121</a>
+        <a class="contact-link" href="mailto:jfp.pmp@gmail.com">jfp.pmp@gmail.com</a>
+        <span class="contact-link">Bogotá, Colombia</span>
+      </div>
+    </div>
+  </div>
+  <button class="btn-pdf" onclick="savePDF()">🖨️ Guardar en PDF</button>
+</header>
   <main>
     <div id="es" class="lang-block active">
       <section>
@@ -464,128 +487,164 @@
   <footer>
     <p>© 2025 Jonathan Flórez Pulido — Professional CV</p>
   </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+<!-- 🔽 Librería html2pdf -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-  // ----- Cambio de idioma -----
   function setLanguage(lang) {
     document.querySelectorAll('.lang-block').forEach(block => block.classList.remove('active'));
     document.getElementById(lang).classList.add('active');
   }
 
-  // ----- Función para guardar o imprimir -----
-  function savePDF() {
-    alert(
-      "🖨️ Recomendación antes de guardar o imprimir:\n\n" +
-      "1️⃣ En la ventana de impresión selecciona:\n" +
-      "   - Tamaño del papel: A4\n" +
-      "   - Márgenes: Ninguno\n" +
-      "   - Escala: Ajustar a una página (Automática)\n\n" +
-      "Así el CV se imprimirá completo, con las secciones optimizadas en columnas y buena legibilidad."
-    );
+async function savePDF() {
+  const { jsPDF } = window.jspdf;
+const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
 
-    const currentLang = document.querySelector('.lang-block.active').id;
-    const currentSection = document.getElementById(currentLang).outerHTML;
+const currentLang = document.querySelector('.lang-block.active').id;
+const name = "Jonathan Flórez Pulido";
+const role = "Administrador Multilingüe | Gestión de Operaciones Internacionales";
+const contact = "+57 321 963 2121 | jfp.pmp@gmail.com | Bogotá, Colombia";
 
-    // Clonamos el encabezado y eliminamos los botones
-    const headerClone = document.querySelector('header').cloneNode(true);
-    const langSwitch = headerClone.querySelector('.lang-switch');
-    const pdfButton = headerClone.querySelector('.btn-pdf');
-    if (langSwitch) langSwitch.remove();
-    if (pdfButton) pdfButton.remove();
+// === Encabezado profesional con foto ===
+try {
+  const img = new Image();
+  img.src = "Jonathan Florez profesional photo.jpg"; // asegúrate que esté en la misma carpeta
+  doc.addImage(img, "JPEG", 21, 10, 15, 22);; // (x, y, ancho, alto)
+} catch (e) {
+  console.error("⚠️ No se pudo cargar la foto:", e);
+}
 
-    // Eliminamos el pie de página en la versión de impresión
-    const footerClone = document.querySelector('footer').cloneNode(true);
-    footerClone.remove();
+let startX = 40; // inicio del texto, alineado junto a la foto
+let y = 20;
 
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Jonathan Flórez Pulido - CV</title>
-          <style>
-            @page { size: A4; margin: 0; }
-            body {
-              font-family: 'Poppins', sans-serif;
-              color: #333;
-              line-height: 1.45;
-              margin: 0;
-              padding: 25px 45px;
-            }
-            h1, h2, h3 {
-              color: #1a73e8;
-              margin: 0.25em 0;
-            }
-            section {
-              margin-bottom: 12px;
-              page-break-inside: avoid;
-            }
-            p, li {
-              font-size: 12.5px;
-              margin: 0 0 3px 0;
-            }
-            header {
-              text-align: center;
-              margin-bottom: 8px;
-            }
-            header .profile-pic {
-              width: 110px;
-              height: 110px;
-              border-radius: 50%;
-              object-fit: cover;
-              border: 3px solid #1a73e8;
-              display: block;
-              margin: 0 auto 8px;
-            }
-            .contacto {
-              text-align: center;
-              margin-bottom: 8px;
-              font-size: 12px;
-            }
-            .chip {
-              color: #1a73e8;
-              text-decoration: none;
-              margin: 0 3px;
-              font-size: 12px;
-            }
+doc.setFont("helvetica", "bold");
+doc.setFontSize(14);
+doc.text(name, startX, y);
+y += 5;
 
-            /* 💡 Ajustes de impresión */
-            @media print {
-              footer, .lang-switch, .btn-pdf { display: none !important; }
+doc.setFont("helvetica", "normal");
+doc.setFontSize(10);
+doc.text(role, startX, y);
+y += 4;
 
-              /* Dos columnas solo para las secciones Idiomas y Habilidades */
-              section h2 {
-                page-break-after: avoid;
-              }
-              section h2 + ul:has(li:contains("Portugués")),
-              section h2 + ul:has(li:contains("Inglés")),
-              section h2 + ul:has(li:contains("Francés")) {
-                display: inline-block;
-                width: 48%;
-                vertical-align: top;
-              }
-              section h2:has(+ ul + ul) {
-                display: flex;
-                justify-content: space-between;
-              }
-              section h2 + ul + ul {
-                display: inline-block;
-                width: 48%;
-                vertical-align: top;
-              }
-            }
-          </style>
-        </head>
-        <body>
-          ${headerClone.outerHTML}
-          ${currentSection}
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
-    printWindow.print();
+doc.setFontSize(9);
+doc.setTextColor(60);
+doc.text(contact, startX, y);
+y += 6;
+
+doc.setTextColor(0);
+doc.setFontSize(9.3);
+
+  // === Contenido principal ===
+  const activeLang = document.getElementById(currentLang);
+  const sections = Array.from(activeLang.querySelectorAll('section'));
+
+  doc.setTextColor(0);
+  doc.setFontSize(9.3);
+
+  const combineCount = 2; // últimas 2 secciones se combinan (idiomas y habilidades)
+  const total = sections.length;
+  const mainCount = total > combineCount ? total - combineCount : total;
+
+  for (let i = 0; i < mainCount; i++) {
+    const section = sections[i];
+    const title = section.querySelector('h2')?.innerText || '';
+    const paragraphs = Array.from(section.querySelectorAll('p')).map(p => p.innerText);
+    const subtitles = Array.from(section.querySelectorAll('h3')).map(h3 => h3.innerText);
+    const items = Array.from(section.querySelectorAll('li')).map(li => li.innerText);
+
+    if (title) {
+      y += 3;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10.5);
+      doc.setTextColor(26, 115, 232);
+      doc.text(title, 20, y);
+      y += 3.5;
+    }
+
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(0);
+    doc.setFontSize(9.2);
+
+    // párrafos (menos espacio entre líneas)
+    for (const p of paragraphs) {
+      const splitText = doc.splitTextToSize(p, 170);
+      doc.text(splitText, 20, y);
+      y += splitText.length * 3.4; // 🔹 reducido de 4 → 3.4
+    }
+
+    // subtítulos (experiencias)
+    for (const sub of subtitles) {
+      y += 2.5;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9.4);
+      doc.text(sub, 20, y);
+      y += 2.5;
+      doc.setFont('helvetica', 'normal');
+    }
+
+    // listas (li)
+    for (const li of items) {
+      const splitLi = doc.splitTextToSize(li, 165);
+      doc.text('- ' + splitLi.join('\n'), 25, y);
+      y += splitLi.length * 3.3; // 🔹 reducido de 4 → 3.3
+    }
+
+    // salto de página si hace falta
+    if (y > 270 && i !== mainCount - 1) {
+      doc.addPage();
+      y = 18;
+    }
   }
+
+  // === Secciones finales (Idiomas y Habilidades) ===
+  if (total >= combineCount) {
+    if (y > 240) { doc.addPage(); y = 18; }
+    y += 2;
+
+    const lastSections = sections.slice(-combineCount);
+    const leftList = Array.from(lastSections[0].querySelectorAll('li')).map(li => li.innerText);
+    const rightList = Array.from(lastSections[1].querySelectorAll('li')).map(li => li.innerText);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(26, 115, 232);
+    doc.text(lastSections[0].querySelector('h2').innerText, 20, y);
+    doc.text(lastSections[1].querySelector('h2').innerText, 110, y);
+    y += 3;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(0);
+    doc.setFontSize(9);
+
+    const maxItems = Math.max(leftList.length, rightList.length);
+    for (let i = 0; i < maxItems; i++) {
+      if (leftList[i]) {
+        const leftSplit = doc.splitTextToSize(leftList[i], 80);
+        doc.text(leftSplit, 20, y);
+      }
+      if (rightList[i]) {
+        const rightSplit = doc.splitTextToSize(rightList[i], 80);
+        doc.text(rightSplit, 110, y);
+      }
+      y += 3.2 * Math.max(
+        leftList[i] ? doc.splitTextToSize(leftList[i], 80).length : 0,
+        rightList[i] ? doc.splitTextToSize(rightList[i], 80).length : 0,
+        1
+      );
+
+      if (y > 270 && i !== maxItems - 1) {
+        doc.addPage();
+        y = 18;
+      }
+    }
+  }
+
+  // === Descargar PDF ===
+  doc.save("CV_Jonathan_Florez_Pulido.pdf");
+}
 </script>
 
 </body>
 </html>
-
-
