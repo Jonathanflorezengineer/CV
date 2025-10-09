@@ -494,10 +494,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
   function setLanguage(lang) {
-    document.querySelectorAll('.lang-block').forEach(block => block.classList.remove('active'));
-    document.getElementById(lang).classList.add('active');
-  }
+  // 🔹 Cambiar el contenido visible
+  document.querySelectorAll('.lang-block').forEach(block => block.classList.remove('active'));
+  document.getElementById(lang).classList.add('active');
 
+  // 🔹 Actualizar el cargo y país en el encabezado según idioma
+  const roleElement = document.querySelector('.role');
+  const contactLinks = document.querySelectorAll('.contact-link');
+
+  switch (lang) {
+    case 'es':
+      roleElement.textContent = "Administrador Multilingüe | Gestión de Operaciones Internacionales";
+      contactLinks[2].textContent = "Bogotá, Colombia";
+      break;
+    case 'pt':
+      roleElement.textContent = "Administrador Multilíngue | Gestão de Operações Internacionais";
+      contactLinks[2].textContent = "Bogotá, Colômbia";
+      break;
+    case 'en':
+      roleElement.textContent = "Multilingual Administrator | International Operations Management";
+      contactLinks[2].textContent = "Bogotá, Colombia";
+      break;
+  }
+}
 async function savePDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
