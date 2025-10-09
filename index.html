@@ -640,34 +640,34 @@ async function savePDF() {
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(26, 115, 232);
     doc.text(lastSections[0].querySelector('h2').innerText, 20, y);
-    doc.text(lastSections[1].querySelector('h2').innerText, 110, y);
-    y += 3;
+doc.text(lastSections[1].querySelector('h2').innerText, 100, y); // 🔹 antes estaba 110
+y += 3;
 
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(0);
-    doc.setFontSize(9);
+doc.setFont('helvetica', 'normal');
+doc.setTextColor(0);
+doc.setFontSize(9);
 
-    const maxItems = Math.max(leftList.length, rightList.length);
-    for (let i = 0; i < maxItems; i++) {
-      if (leftList[i]) {
-        const leftSplit = doc.splitTextToSize(leftList[i], 80);
-        doc.text(leftSplit, 20, y);
-      }
-      if (rightList[i]) {
-        const rightSplit = doc.splitTextToSize(rightList[i], 80);
-        doc.text(rightSplit, 110, y);
-      }
-      y += 3.2 * Math.max(
-        leftList[i] ? doc.splitTextToSize(leftList[i], 80).length : 0,
-        rightList[i] ? doc.splitTextToSize(rightList[i], 80).length : 0,
-        1
-      );
+const maxItems = Math.max(leftList.length, rightList.length);
+for (let i = 0; i < maxItems; i++) {
+  if (leftList[i]) {
+    const leftSplit = doc.splitTextToSize(leftList[i], 75); // 🔹 antes 80
+    doc.text(leftSplit, 20, y);
+  }
+  if (rightList[i]) {
+    const rightSplit = doc.splitTextToSize(rightList[i], 95); // 🔹 antes 80
+    doc.text(rightSplit, 100, y); // 🔹 antes 110
+  }
+  y += 3.2 * Math.max(
+    leftList[i] ? doc.splitTextToSize(leftList[i], 75).length : 0,
+    rightList[i] ? doc.splitTextToSize(rightList[i], 95).length : 0,
+    1
+  );
 
-      if (y > 270 && i !== maxItems - 1) {
-        doc.addPage();
-        y = 18;
-      }
-    }
+  if (y > 270 && i !== maxItems - 1) {
+    doc.addPage();
+    y = 18;
+  }
+}
   }
 
   // === Descargar PDF ===
