@@ -620,6 +620,40 @@ async function savePDF() {
         y = 18;
       }
     });
+        // === Imprimir ULs que no están asociadas a un <h3> (p. ej. Formación Académica) ===
+    // Evita duplicar listas ya impresas dentro de experiencias.
+    const uls = Array.from(section.querySelectorAll('ul'));
+    for (const ul of uls) {
+      // Miramos hacia atrás para ver si esta UL pertenece a una experiencia (un H3 anterior)
+      let prev = ul.previousElementSibling;
+      let belongsToH3 = false;
+      while (prev) {
+        if (prev.tagName === 'H3') { belongsToH3 = true; break; }
+        if (prev.tagName === 'H2') break; // llegó al título de la sección sin encontrar H3
+        prev = prev.previousElementSibling;
+      }
+
+      // Si NO pertenece a un H3, la imprimimos (esto cubre Formación Académica)
+      if (!belongsToH3) {
+        const lis = ul.querySelectorAll('li');
+        for (const li of lis) {
+          const split = doc.splitTextToSize(li.innerText, 165);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(9);
+          doc.text(split, 23, y); // indentado, sin viñeta
+          y += split.length * 3.3;
+
+          // Si alcanzamos el final de la página, crear nueva página y continuar
+          if (y > 270) {
+            doc.addPage();
+            y = 18;
+          }
+        }
+        // pequeño espaciado después de la lista
+        y += 2;
+      }
+    }
+
 
     // 🔹 Control antes de la siguiente sección
     if (y > 270 && i !== mainCount - 1) {
@@ -640,7 +674,7 @@ async function savePDF() {
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(26, 115, 232);
     doc.text(lastSections[0].querySelector('h2').innerText, 20, y);
-doc.text(lastSections[1].querySelector('h2').innerText, 100, y); // 🔹 antes estaba 110
+doc.text(lastSections[1].querySelector('h2').innerText, 70, y); // 🔹 movida más cerca (antes 100)
 y += 3;
 
 doc.setFont('helvetica', 'normal');
@@ -650,12 +684,12 @@ doc.setFontSize(9);
 const maxItems = Math.max(leftList.length, rightList.length);
 for (let i = 0; i < maxItems; i++) {
   if (leftList[i]) {
-    const leftSplit = doc.splitTextToSize(leftList[i], 75); // 🔹 antes 80
+    const leftSplit = doc.splitTextToSize(leftList[i], 75);
     doc.text(leftSplit, 20, y);
   }
   if (rightList[i]) {
-    const rightSplit = doc.splitTextToSize(rightList[i], 95); // 🔹 antes 80
-    doc.text(rightSplit, 100, y); // 🔹 antes 110
+    const rightSplit = doc.splitTextToSize(rightList[i], 95);
+    doc.text(rightSplit, 70, y); // 🔹 movida más cerca (antes 100)
   }
   y += 3.2 * Math.max(
     leftList[i] ? doc.splitTextToSize(leftList[i], 75).length : 0,
